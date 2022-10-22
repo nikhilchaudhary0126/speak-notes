@@ -63,11 +63,11 @@ def login():
 
 @app.route('/register', methods=['POST'])
 def register():
-    if request.json and 'email' in request.json and 'name' in request.json and 'password' not in request.json and \
+    if request.json and 'email' in request.json and 'name' in request.json and 'password' in request.json and \
             request.json['name'] != '' and request.json['email'] != '' and request.json['password'] != '':
         if create_user(request.json['email'], request.json['name'], request.json['password']):
             return make_response(jsonify({'message': 'User created'}), 200)
-    return make_response(jsonify({'message': 'Please enter all attributes'}), 400)
+    return make_response(jsonify({}), 400)
 
 
 if __name__ == '__main__':

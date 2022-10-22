@@ -23,16 +23,16 @@ def initialize():
         cur.execute("CREATE TABLE IF NOT EXISTS users(uid UUID PRIMARY KEY DEFAULT gen_random_uuid(),email VARCHAR(50) "
                     "UNIQUE, password VARCHAR(50), name VARCHAR(50));")
         cur.execute("CREATE TABLE IF NOT EXISTS notes(nid UUID PRIMARY KEY DEFAULT gen_random_uuid(), uid UUID, "
-                    "note VARCHAR(500));")
+                    "title VARCHAR(50),note VARCHAR(500));")
         conn.commit()
 
 
-def create_note(uid, note):
+def create_note(uid, note,title):
     try:
         conn = connect()
         with conn.cursor() as cur:
             cur.execute(
-                "INSERT INTO notes(uid,note) values('%s','%s');" % (uid, note))
+                "INSERT INTO notes(uid,note,title) values('%s','%s', '%s');" % (uid, note,title))
             conn.commit()
             return True
     except Exception:
@@ -44,7 +44,7 @@ def get_note(uid):
         conn = connect()
         with conn.cursor() as cur:
             cur.execute(
-                "SELECT nid,note from notes where UID='%s';" % uid)
+                "SELECT nid,note,title from notes where UID='%s';" % uid)
             res = cur.fetchall()
         return res
     except Exception:
@@ -77,19 +77,22 @@ def authenticate(email, password):
         return 0
 
 
-@app.route('/get_notes/<string:uid>/')
-def hello(uid):
+@app.route('/get_notes/<string:uid>')
+def note_getter(uid):
     if uid != '':
-        if get_note(uid):
-            return make_response(jsonify({'message': 'Created note', 'uid': uid}), 200)
+         notes = get_note(uid)
+         if notes:
+            return make_response(jsonify({'notes': notes}), 200)
+         else:
+            return make_response(jsonify({'notes': []}), 200)
     return make_response(jsonify({}), 400)
 
 
 @app.route('/create_note', methods=['POST'])
 def note_creator():
     if request.json and 'uid' in request.json and request.json['uid'] != '' and 'note' in request.json and \
-            request.json['note'] != '':
-        if create_note(request.json['uid'], request.json['note']):
+            request.json['note'] != '' and 'title' in request.json and request.json['title'] != '':
+        if create_note(request.json['uid'], request.json['note'], request.json['title']):
             return make_response(jsonify({'message': 'Note created'}), 200)
     return make_response(jsonify({}), 400)
 

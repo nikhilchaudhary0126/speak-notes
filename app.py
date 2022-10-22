@@ -20,17 +20,43 @@ def connect():
 def initialize():
     conn = connect()
     with conn.cursor() as cur:
-        cur.execute(
-            "CREATE TABLE IF NOT EXISTS users(uid UUID PRIMARY KEY DEFAULT gen_random_uuid(),email VARCHAR(50) "
-            "UNIQUE, password VARCHAR(50), name VARCHAR(50));")
+        cur.execute("CREATE TABLE IF NOT EXISTS users(uid UUID PRIMARY KEY DEFAULT gen_random_uuid(),email VARCHAR(50) "
+                    "UNIQUE, password VARCHAR(50), name VARCHAR(50));")
+        cur.execute("CREATE TABLE IF NOT EXISTS notes(nid UUID PRIMARY KEY DEFAULT gen_random_uuid(), uid UUID, "
+                    "note VARCHAR(500));")
         conn.commit()
+
+
+def create_note(uid, note):
+    try:
+        conn = connect()
+        with conn.cursor() as cur:
+            cur.execute(
+                "INSERT INTO notes(uid,note) values('%s','%s');" % (uid, note))
+            conn.commit()
+            return True
+    except Exception:
+        return False
+
+
+def get_note(uid):
+    try:
+        conn = connect()
+        with conn.cursor() as cur:
+            cur.execute(
+                "SELECT nid,note from notes where UID='%s';" % uid)
+            res = cur.fetchall()
+        return res
+    except Exception:
+        return []
 
 
 def create_user(email, password, name):
     try:
         conn = connect()
         with conn.cursor() as cur:
-            cur.execute("INSERT INTO users values('%s','%s','%s');" % (email, password, name))
+            cur.execute(
+                "INSERT INTO users(email,password,name) values('%s','%s','%s');" % (email, password, name))
             conn.commit()
             return True
     except Exception:
@@ -51,13 +77,30 @@ def authenticate(email, password):
         return 0
 
 
+@app.route('/get_notes/<string:uid>/')
+def hello(uid):
+    if uid != '':
+        if get_note(uid):
+            return make_response(jsonify({'message': 'Created note', 'uid': uid}), 200)
+    return make_response(jsonify({}), 400)
+
+
+@app.route('/create_note', methods=['POST'])
+def note_creator():
+    if request.json and 'uid' in request.json and request.json['uid'] != '' and 'note' in request.json and \
+            request.json['note'] != '':
+        if create_note(request.json['uid'], request.json['note']):
+            return make_response(jsonify({'message': 'Note created'}), 200)
+    return make_response(jsonify({}), 400)
+
+
 @app.route('/login', methods=['POST'])
 def login():
     if request.json and 'email' in request.json and request.json['email'] != '' and 'password' in request.json \
             and request.json['password'] != '':
         uid = authenticate(request.json['email'], request.json['password'])
         if uid:
-            return make_response(jsonify({'message': 'Login successful'}), 200)
+            return make_response(jsonify({'message': 'Login successful', 'uid': uid}), 200)
     return make_response(jsonify({}), 400)
 
 

@@ -13,7 +13,6 @@ export function Login(){
     const HOST = "http://127.0.0.1:5000";
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("here")
         const options = {
             headers: {
                 'Access-Control-Allow-Origin': '*',
@@ -39,7 +38,7 @@ export function Login(){
     return (
         <div className="Auth">
         <div className="auth-container">
-            <h1>Notes</h1>
+            <h1>Speak Notes</h1>
             <h2>Login</h2>
             <form className="login-form" onSubmit={handleSubmit}>
                 <label htmlFor="email">email</label>

@@ -29,7 +29,7 @@ export function Registration(){
     return (
       <div className = "Auth">
         <div className="auth-container">
-          <h1>Notes</h1>
+          <h1>Speak Notes</h1>
           <h2>Register</h2>
         <form className="register-form" onSubmit={handleSubmit}>
             <label htmlFor="name">Full name</label>

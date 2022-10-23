@@ -5,6 +5,8 @@ from flask import make_response
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from dotenv import load_dotenv
+import six
+from google.cloud import translate_v2 as translate
 
 load_dotenv()
 
@@ -120,12 +122,28 @@ def note_creator():
 
 
 @app.route('/update_note', methods=['POST'])
-def note_creator():
+def note_updater():
     if request.json and 'uid' in request.json and request.json['uid'] != '' and 'note' in request.json and \
             request.json['note'] != '' and 'title' in request.json and request.json['title'] != '':
         if create_note(request.json['uid'], request.json['note'], request.json['title']):
             notes = get_note(request.json['uid'])
             return make_response(jsonify({'message': 'Note created', 'notes': notes}), 200)
+    return make_response(jsonify({'notes': []}), 200)
+
+
+@app.route('/update_note', methods=['POST'])
+def note_convertor():
+    if request.json and 'note' in request.json and request.json['note'] != '' and 'target' in request.json and \
+            request.json['target'] != '':
+
+        translate_client = translate.Client()
+        text = request.json['note']
+        target = request.json['target']
+
+        if isinstance(text, six.binary_type):
+            text = text.decode("utf-8")
+        result = translate_client.translate(text, target_language=target)
+        return make_response(jsonify({'message': 'Note coverted', 'note': result}), 200)
     return make_response(jsonify({'notes': []}), 200)
 
 

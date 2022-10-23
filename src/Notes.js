@@ -49,8 +49,9 @@ export function Notes() {
     Axios.get(`${HOST}/get_notes/${uid}`)
     .then((response) => {
         console.log(response)
-        setNotes(response.data.message);
-        setFilteredNotes(response.data.message);
+        setNotes(response.data.notes);
+        setFilteredNotes(response.data.notes);
+        setIsModalOpen(false)
     })
     .catch((error) => {
         const data = error.response.data
@@ -60,28 +61,7 @@ export function Notes() {
       })
   };
   const fetchMyNotes = async () => {
-    // getNotes(userId);
-    let note1 = {
-      id: "1",
-      title: "first",
-      content: "this is first"
-    }
-    let note2 = {
-      id: "1",
-      title: "second",
-      content: "this is second"
-    }
-    let note3 = {
-      id: "1",
-      title: "third",
-      content: "this is third"
-    }
-    
-    setNotes([note1,note2,note3]);
-    setFilteredNotes([note1,note2,note3]);
-    // const data = await response.data;
-    // setNotes(data);
-    // setFilteredNotes(data);
+    getNotes(userId);
   };
 
   const filterOnClick = (e) => {
@@ -123,7 +103,7 @@ export function Notes() {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <AddNotes Id = {userId} onSubmit={onSubmit} />
+        <AddNotes Id = {userId} setNotes={setNotes}  setFilteredNotes= {setFilteredNotes} setIsModalOpen= {setIsModalOpen}/>
       </Modal>
     </Box></div>
    

@@ -25,17 +25,18 @@ import { editNote, updateFavorited } from "./functions";
 export default function NoteItem({ note, onDelete, onUpdate }) {
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
-  const [noteTitle, setNoteTitle] = useState(note.title);
-  const [Id, setId] = useState(note.id);
-  const [noteContent, setNoteContent] = useState(note.content);
+  const [noteTitle, setNoteTitle] = useState(note[1]);
+  const [Id, setId] = useState(note[0]);
+  const [noteContent, setNoteContent] = useState(note[2]);
   const [menuOpened, setMenuOpened] = useState(false);
   const [anchor, setAnchor] = useState(null);
   const [isLiked, setIsLiked] = useState(note.favorited);
   const [favoriteButtonDisabled, setFavoriteButtonDisabled] = useState(false);
   const HOST = "http://127.0.0.1:5000";
   useEffect(() => {
-    setNoteTitle(note.title);
-    setNoteContent(note.content);
+    setNoteTitle(note[1]);
+    setNoteContent(note[2]);
+    setId(note[0]);
     setIsLiked(note.favorited);
   }, [note]);
 
@@ -106,7 +107,7 @@ export default function NoteItem({ note, onDelete, onUpdate }) {
   return (
     <Card className = "card" variant = "outlined" sx={{ maxWidth: 400, position: "relative", height: "100%" }} fullWidth>
        <CardHeader
-        title= {note.title}
+        title= {noteTitle}
         action={
                 <>
             <IconButton
@@ -187,7 +188,7 @@ export default function NoteItem({ note, onDelete, onUpdate }) {
                 sx={{
                   minHeight: 350,
                   maxHeight: 350,
-                  mb: "36px",
+                  mb: "40px",
                 }}
               >
                 {noteContent}

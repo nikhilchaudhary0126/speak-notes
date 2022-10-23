@@ -93,9 +93,9 @@ def note_creator():
     if request.json and 'uid' in request.json and request.json['uid'] != '' and 'note' in request.json and \
             request.json['note'] != '' and 'title' in request.json and request.json['title'] != '':
         if create_note(request.json['uid'], request.json['note'], request.json['title']):
-            return make_response(jsonify({'message': 'Note created'}), 200)
-    return make_response(jsonify({}), 400)
-
+            notes = get_note(request.json['uid'])
+            return make_response(jsonify({'message': 'Note created','notes': notes}), 200)
+    return make_response(jsonify({'notes': []}), 200)
 
 @app.route('/login', methods=['POST'])
 def login():

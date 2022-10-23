@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import Axios from "axios"
 import { addNotes } from "./functions";
 
-export default function AddNotes({ onSubmit,Id }) {
+export default function AddNotes({ setNotes,setFilteredNotes, setIsModalOpen,Id }) {
   const [loadingButton, setLoadingButton] = useState(false);
   const [noteTitle, setNoteTitle] = useState("");
   const [noteContent, setNoteContent] = useState("");
@@ -41,12 +41,11 @@ export default function AddNotes({ onSubmit,Id }) {
       };
     Axios.post(`${HOST}/create_note`,data)
     .then((response) => {
-        console.log(response)
-        // setNotes(response.data);
-        // setFilteredNotes(data);
-        // onSubmit(response.data);
-        // setNoteContent("");
-        // setNoteTitle("");
+        setNotes(response.data.notes);
+        setFilteredNotes(response.data.notes);
+        setIsModalOpen(false);
+        setNoteContent("");
+        setNoteTitle("");
     })
     .catch((error) => {
         const data = error.response.data

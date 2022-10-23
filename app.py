@@ -33,8 +33,20 @@ def create_note(uid, note, title):
     try:
         conn = connect()
         with conn.cursor() as cur:
-            cur.execute(
-                "INSERT INTO notes(uid,note,title) values('%s','%s', '%s');" % (uid, note, title))
+            cur.execute("INSERT INTO notes(uid,note,title) values('%s','%s', '%s');" % (uid, note, title))
+            conn.commit()
+            return True
+    except Exception:
+        return False
+
+
+def share_note(email, note, title):
+    try:
+        conn = connect()
+        with conn.cursor() as cur:
+            cur.execute("SELECT uid FROM users WHERE email = '%s';" % email)
+            uid = cur.fetchone()[0]
+            cur.execute("INSERT INTO notes(uid,note,title) values('%s','%s', '%s');" % (uid, note, title))
             conn.commit()
             return True
     except Exception:
@@ -118,6 +130,15 @@ def note_updater():
             request.json['note'] != '':
         if update_note(request.json['nid'], request.json['note']):
             return make_response(jsonify({'message': 'Note updated'}), 200)
+    return make_response(jsonify({'notes': []}), 200)
+
+
+@app.route('/share_note', methods=['POST'])
+def note_share():
+    if request.json and 'email' in request.json and request.json['email'] != '' and 'note' in request.json and \
+            request.json['note'] != '' and 'title' in request.json and request.json['title'] != '':
+        if share_note(request.json['email'], request.json['note'], request.json['title']):
+            return make_response(jsonify({'message': 'Note shared'}), 200)
     return make_response(jsonify({'notes': []}), 200)
 
 

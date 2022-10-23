@@ -1,0 +1,13 @@
+.container{
+    display: "flex";
+    flex-direction: "horizontal";
+    padding: "10px";
+    font-family: "Arial";
+    margin: "10px";
+    background-color: "7c711cfc";
+}
+  
+.links{
+    padding: "10px";
+    margin: "10px";
+}

@@ -1,0 +1,14 @@
+.card{
+    max-width: 300;
+    margin-left: 10px;
+    transition: 0.3s;
+    box-shadow: 0 8px 40px -12px rgba(0,0,0,0.3);
+}
+
+.card:hover {
+    box-shadow: 20px 30px 100px -16.125px rgba(0,0,0,0.3);
+  }
+
+.divider {
+    margin: 1px 0
+  }

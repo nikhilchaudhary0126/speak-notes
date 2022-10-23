@@ -3,6 +3,7 @@ import { Registration } from './Registration';
 import { Login } from './Login';
 import React, { useState } from "react";
 import './util/App.css';
+import { Notes } from './Notes';
 import {  
   BrowserRouter as Router,  
   Routes,  
@@ -17,6 +18,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Login/>} />
           <Route path="/Registration" element={<Registration/>}  />
+          <Route path="/Notes/:userId" element={<Notes/>}  />
         </Routes>
       </Router>
   );

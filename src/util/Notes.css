@@ -1,0 +1,17 @@
+.Notes {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    background-color: rgb(34, 94, 169);
+}
+
+.navbar { 
+    top: 0; /* Position the navbar at the top of the page */
+    width: 100%; /* Full width */
+    border-bottom: 2px solid rgb(0, 0, 0);
+  }
+  
+  .main {
+    margin-top: 40px; /* Add a top margin to avoid content overlay */
+  }
+

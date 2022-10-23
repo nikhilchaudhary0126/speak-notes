@@ -27,12 +27,12 @@ def initialize():
         conn.commit()
 
 
-def create_note(uid, note,title):
+def create_note(uid, note, title):
     try:
         conn = connect()
         with conn.cursor() as cur:
             cur.execute(
-                "INSERT INTO notes(uid,note,title) values('%s','%s', '%s');" % (uid, note,title))
+                "INSERT INTO notes(uid,note,title) values('%s','%s', '%s');" % (uid, note, title))
             conn.commit()
             return True
     except Exception:
@@ -44,7 +44,19 @@ def get_note(uid):
         conn = connect()
         with conn.cursor() as cur:
             cur.execute(
-                "SELECT nid,note,title from notes where UID='%s';" % uid)
+                "SELECT nid,note,title from notes where uid='%s';" % uid)
+            res = cur.fetchall()
+        return res
+    except Exception:
+        return []
+
+
+def delete_note(nid):
+    try:
+        conn = connect()
+        with conn.cursor() as cur:
+            cur.execute(
+                "DELETE FROM notes WHERE nid='%s';" % nid)
             res = cur.fetchall()
         return res
     except Exception:
@@ -79,11 +91,11 @@ def authenticate(email, password):
 
 @app.route('/get_notes/<string:uid>')
 def note_getter(uid):
-    if uid != '':
-         notes = get_note(uid)
-         if notes:
+    if uid and uid != '':
+        notes = get_note(uid)
+        if notes:
             return make_response(jsonify({'notes': notes}), 200)
-         else:
+        else:
             return make_response(jsonify({'notes': []}), 200)
     return make_response(jsonify({}), 400)
 
@@ -94,6 +106,14 @@ def note_creator():
             request.json['note'] != '' and 'title' in request.json and request.json['title'] != '':
         if create_note(request.json['uid'], request.json['note'], request.json['title']):
             return make_response(jsonify({'message': 'Note created'}), 200)
+    return make_response(jsonify({}), 400)
+
+
+@app.route('/delete_note/<string:nid>', methods=["DELETE"])
+def note_deleter(nid):
+    if nid and nid != '':
+        if delete_note(nid):
+            return make_response(jsonify({'message': 'Note deleted'}), 200)
     return make_response(jsonify({}), 400)
 
 

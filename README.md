@@ -1,12 +1,52 @@
-# Getting Started with Create React App
+## Inspiration
+The language barrier is one of the biggest challenges in the education system today. As per estimates from Pew Research Center, almost 47% of immigrants do not speak English proficiently and more than 350 different languages are spoken in the United States. To solve this problem of the language barrier and learn new information in a more accessible way, we created SpeakNotes which not only speaks all your notes in several different languages but changes the text into your preferred language.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## What it does
+Speak notes help students all across the globe to learn new things more conveniently. It is a powerful note-taking app that lets you listen to your notes like an audiobook and even change its language. Students can also share their notes with other users for knowledge sharing and collective learning.
 
-## Available Scripts
+## Application Flow
+Simply create a user account on the Speak Notes app.
+
+<img width="500" alt="Screen Shot 2022-10-23 at 5 12 13 AM" src="https://user-images.githubusercontent.com/78563628/197385591-ede5024a-3e02-4e02-bc98-e8f36b4c1a90.png">
+
+After regisering, you will be re-directed to the login page. Login using the valid email id and password.
+
+<img width="500" alt="Screen Shot 2022-10-23 at 5 11 44 AM" src="https://user-images.githubusercontent.com/78563628/197385632-7898aaee-6fcc-47b4-a8a9-f3fd7f067f1a.png">
+
+After logging in, you can create note using the add note button
+
+<img width="500" alt="Screen Shot 2022-10-23 at 5 05 15 AM" src="https://user-images.githubusercontent.com/78563628/197385662-0ffbab31-29a5-48c7-8e83-8101bac5c9c3.png">
+
+You can also edit the note by clicking in the edit button
+
+<img width="500" alt="Screen Shot 2022-10-23 at 5 08 21 AM" src="https://user-images.githubusercontent.com/78563628/197385707-d706a816-363f-4ae4-8439-af25c3e530bc.png">
+
+To change the language of the text, select the preferred language from the available list.
+
+<img width="500" alt="Screen Shot 2022-10-23 at 5 08 44 AM" src="https://user-images.githubusercontent.com/78563628/197385735-01b1c1de-e50f-4e94-9fa9-8eee17aafa7d.png">
+
+## Runtime Instructions
+This webapp uses external apis and keys which should be defined in local runtime environments.
 
 In the project directory, you can run:
 
-### `npm start`
+## Python instructions
+
+* `pip3 install -r requirements.txt`
+
+Installs all python packages used in project
+
+* `python3 app.py`
+
+Runs all flask Apis locally.
+
+## Node instructions
+
+* `npm install`
+
+Installs all the dependencies on the local machine.\
+
+* `npm start`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
@@ -14,57 +54,3 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

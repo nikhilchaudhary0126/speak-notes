@@ -46,7 +46,7 @@ def get_note(uid):
         conn = connect()
         with conn.cursor() as cur:
             cur.execute(
-                "SELECT nid,note,title from notes where uid='%s';" % uid)
+                "SELECT nid,title,note from notes where uid='%s';" % uid)
             res = cur.fetchall()
         return res
     except Exception:
@@ -112,8 +112,8 @@ def note_getter(uid):
     return make_response(jsonify({}), 400)
 
 
-@app.route('/create_note', methods=['POST'])
-def note_creator():
+@app.route('/update_note', methods=['POST'])
+def note_updater():
     if request.json and 'nid' in request.json and request.json['nid'] != '' and 'note' in request.json and \
             request.json['note'] != '':
         if update_note(request.json['nid'], request.json['note']):
@@ -121,8 +121,8 @@ def note_creator():
     return make_response(jsonify({'notes': []}), 200)
 
 
-@app.route('/update_note', methods=['POST'])
-def note_updater():
+@app.route('/create_note', methods=['POST'])
+def note_creator():
     if request.json and 'uid' in request.json and request.json['uid'] != '' and 'note' in request.json and \
             request.json['note'] != '' and 'title' in request.json and request.json['title'] != '':
         if create_note(request.json['uid'], request.json['note'], request.json['title']):
@@ -131,7 +131,7 @@ def note_updater():
     return make_response(jsonify({'notes': []}), 200)
 
 
-@app.route('/update_note', methods=['POST'])
+@app.route('/convert_note', methods=['POST'])
 def note_convertor():
     if request.json and 'note' in request.json and request.json['note'] != '' and 'target' in request.json and \
             request.json['target'] != '':
@@ -143,7 +143,7 @@ def note_convertor():
         if isinstance(text, six.binary_type):
             text = text.decode("utf-8")
         result = translate_client.translate(text, target_language=target)
-        return make_response(jsonify({'message': 'Note coverted', 'note': result}), 200)
+        return make_response(jsonify({'message': 'Note coverted', 'note': result["translatedText"]}), 200)
     return make_response(jsonify({'notes': []}), 200)
 
 

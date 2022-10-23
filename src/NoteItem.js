@@ -7,6 +7,7 @@ import TextField from "@mui/material/TextField";
 import LoadingButton from "@mui/lab/LoadingButton";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
+import {useTranslation} from "react-i18next";
 import Axios from "axios"
 import "./util/NoteItem.css"
 import {
@@ -20,7 +21,7 @@ import {
 import { MoreVert, Delete, Edit } from "@mui/icons-material";
 import moment from "moment";
 
-import { editNote, updateFavorited } from "./functions";
+import { updateFavorited } from "./functions";
 
 export default function NoteItem({ note, onDelete, onUpdate }) {
   const [buttonDisabled, setButtonDisabled] = useState(false);
@@ -32,7 +33,17 @@ export default function NoteItem({ note, onDelete, onUpdate }) {
   const [anchor, setAnchor] = useState(null);
   const [isLiked, setIsLiked] = useState(note.favorited);
   const [favoriteButtonDisabled, setFavoriteButtonDisabled] = useState(false);
+  const [lang, setLang] = useState('en');
   const HOST = "http://127.0.0.1:5000";
+  const languages = [
+    { value: '', text: "Options" },
+    { value: 'en', text: "English" },
+    { value: 'es', text: "Spanish" },
+    { value: 'nl', text: "Dutch" },
+    { value: 'de', text: "German" },
+    { value: 'fr', text: "French" }
+    ]
+ 
   useEffect(() => {
     setNoteTitle(note[1]);
     setNoteContent(note[2]);
@@ -43,24 +54,32 @@ export default function NoteItem({ note, onDelete, onUpdate }) {
   const deleteNote = () => {
     Axios.delete(`${HOST}/delete_note/${Id}`)
     .then((response) => {
-        console.log(response)
+      onDelete(Id);
+      setMenuOpened(false);
     })
     .catch((error) => {
         const data = error.response.data
         if (error.response.status === 400) {
-            console.log("comething went wrong")
+            console.log("something went wrong")
+        }
+      })
+  };
+
+  const editNote = (data) => {
+    Axios.post(`${HOST}/update_note`,data)
+    .then((response) => {
+      console.log("edited note")
+    })
+    .catch((error) => {
+        const data = error.response.data
+        if (error.response.status === 400) {
+            console.log("something went wrong")
         }
       })
   };
   const deleteNoteOnClick = async () => {
     setButtonDisabled(true);
     deleteNote();
-    // const data = await response.data;
-    // onUpdate();
-    // setButtonDisabled(false);
-    // const deletedNote = data.data;
-    // onDelete(deletedNote);
-    // setMenuOpened(false);
   };
 
   const upddateNoteFavorite = async () => {
@@ -79,6 +98,8 @@ export default function NoteItem({ note, onDelete, onUpdate }) {
     Axios.get(`${HOST}/speak_note/${Id}`)
     .then((response) => {
         console.log(response)
+        let audio = new Audio("/christmas.mp3")
+        audio.play()
     })
     .catch((error) => {
         const data = error.response.data
@@ -88,18 +109,39 @@ export default function NoteItem({ note, onDelete, onUpdate }) {
       })
   }
   const speakOnClick = async () => {
-    speakNote();
+    const msg = new SpeechSynthesisUtterance()
+    msg.text = noteContent
+    window.speechSynthesis.speak(msg)
+    // speakNote();
   }
   const editedNote = async () => {
     setButtonDisabled(true);
     const noteInfomation = {
-      title: noteTitle,
-      content: noteContent,
+      nid:Id,
+      note: noteContent,
     };
-    await editNote(note._id, noteInfomation);
+    editNote(noteInfomation);
     setButtonDisabled(false);
     setIsEdit(!setIsEdit);
   };
+
+  const convertNoteLang = () =>{
+    Axios.post(`${HOST}/convert_note`,{note:noteContent, target:lang})
+    .then((response) => {
+      console.log("note converted")
+      setNoteContent(response.data.note)
+    })
+    .catch((error) => {
+        const data = error.response.data
+        if (error.response.status === 400) {
+            console.log("something went wrong")
+        }
+    })
+  }
+  const handleLanguage = e => { 
+    setLang(e.target.value);
+    convertNoteLang();
+}
 
   const getDate = (date) => moment(date).format("DD.MM.yyyy");
   const getTime = (date) => moment(date).format("HH.mm");
@@ -110,6 +152,12 @@ export default function NoteItem({ note, onDelete, onUpdate }) {
         title= {noteTitle}
         action={
                 <>
+              <select value={lang} onChange={handleLanguage}>
+              {languages.map(item => {
+                  return (<option key={item.value} 
+                  value={item.value}>{item.text}</option>);
+              })}
+            </select>
             <IconButton
             onClick={() => speakOnClick()}
             disabled={favoriteButtonDisabled}

@@ -37,7 +37,7 @@ export default function AddNotes({ setNotes,setFilteredNotes, setIsModalOpen,Id 
     const data = {
         uid: Id,
         title: title,
-        note: noteContent,
+        note: noteContent
       };
     Axios.post(`${HOST}/create_note`,data)
     .then((response) => {

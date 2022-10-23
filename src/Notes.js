@@ -39,8 +39,8 @@ export function Notes() {
     setIsSuccess(true);
   };
 
-  const onDelete = (deletedNote) => {
-    const newList = notes.filter((item) => item._id !== deletedNote._id);
+  const onDelete = (Id) => {
+    const newList = notes.filter((item) => item[0] !== Id);
     setNotes(newList);
     setFilteredNotes(newList);
   };
@@ -48,7 +48,6 @@ export function Notes() {
     
     Axios.get(`${HOST}/get_notes/${uid}`)
     .then((response) => {
-        console.log(response)
         setNotes(response.data.notes);
         setFilteredNotes(response.data.notes);
         setIsModalOpen(false)

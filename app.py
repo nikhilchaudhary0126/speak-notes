@@ -55,12 +55,22 @@ def delete_note(nid):
     try:
         conn = connect()
         with conn.cursor() as cur:
-            cur.execute(
-                "DELETE FROM notes WHERE nid='%s';" % nid)
-            res = cur.fetchall()
-        return res
+            cur.execute("DELETE FROM notes WHERE nid='%s';" % nid)
+            conn.commit()
+            return True
     except Exception:
-        return []
+        return False
+
+
+def update_note(nid, note):
+    try:
+        conn = connect()
+        with conn.cursor() as cur:
+            cur.execute("UPDATE notes SET note='%s' WHERE nid='%s';" % (note, nid))
+            conn.commit()
+            return True
+    except Exception:
+        return False
 
 
 def create_user(email, password, name):
@@ -106,8 +116,9 @@ def note_creator():
             request.json['note'] != '' and 'title' in request.json and request.json['title'] != '':
         if create_note(request.json['uid'], request.json['note'], request.json['title']):
             notes = get_note(request.json['uid'])
-            return make_response(jsonify({'message': 'Note created','notes': notes}), 200)
+            return make_response(jsonify({'message': 'Note created', 'notes': notes}), 200)
     return make_response(jsonify({'notes': []}), 200)
+
 
 @app.route('/delete_note/<string:nid>', methods=["DELETE"])
 def note_deleter(nid):

@@ -9,15 +9,15 @@ Simply create a user account on the Speak Notes app.
 
 <img width="500" alt="Screen Shot 2022-10-23 at 5 12 13 AM" src="https://user-images.githubusercontent.com/78563628/197385591-ede5024a-3e02-4e02-bc98-e8f36b4c1a90.png">
 
-After regisering, you will be re-directed to the login page. Login using the valid email id and password.
+After regisering, you will be re-directed to the login page. Login using valid email id and password.
 
 <img width="500" alt="Screen Shot 2022-10-23 at 5 11 44 AM" src="https://user-images.githubusercontent.com/78563628/197385632-7898aaee-6fcc-47b4-a8a9-f3fd7f067f1a.png">
 
-After logging in, you can create note using the add note button
+After logging in, you can create a note using the add note button.
 
 <img width="500" alt="Screen Shot 2022-10-23 at 5 05 15 AM" src="https://user-images.githubusercontent.com/78563628/197385662-0ffbab31-29a5-48c7-8e83-8101bac5c9c3.png">
 
-You can also edit the note by clicking in the edit button
+You can also edit the note by clicking in the edit button.
 
 <img width="500" alt="Screen Shot 2022-10-23 at 5 08 21 AM" src="https://user-images.githubusercontent.com/78563628/197385707-d706a816-363f-4ae4-8439-af25c3e530bc.png">
 

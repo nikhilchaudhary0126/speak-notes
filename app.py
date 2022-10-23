@@ -112,6 +112,15 @@ def note_getter(uid):
 
 @app.route('/create_note', methods=['POST'])
 def note_creator():
+    if request.json and 'nid' in request.json and request.json['nid'] != '' and 'note' in request.json and \
+            request.json['note'] != '':
+        if update_note(request.json['nid'], request.json['note']):
+            return make_response(jsonify({'message': 'Note updated'}), 200)
+    return make_response(jsonify({'notes': []}), 200)
+
+
+@app.route('/update_note', methods=['POST'])
+def note_creator():
     if request.json and 'uid' in request.json and request.json['uid'] != '' and 'note' in request.json and \
             request.json['note'] != '' and 'title' in request.json and request.json['title'] != '':
         if create_note(request.json['uid'], request.json['note'], request.json['title']):

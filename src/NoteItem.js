@@ -8,6 +8,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import {useTranslation} from "react-i18next";
+import ShareIcon from '@mui/icons-material/Share';
 import Axios from "axios"
 import "./util/NoteItem.css"
 import {
@@ -152,12 +153,6 @@ export default function NoteItem({ note, onDelete, onUpdate }) {
         title= {noteTitle}
         action={
                 <>
-              <select value={lang} onChange={handleLanguage}>
-              {languages.map(item => {
-                  return (<option key={item.value} 
-                  value={item.value}>{item.text}</option>);
-              })}
-            </select>
             <IconButton
             onClick={() => speakOnClick()}
             disabled={favoriteButtonDisabled}
@@ -171,7 +166,7 @@ export default function NoteItem({ note, onDelete, onUpdate }) {
             sx={{ color: isLiked ? "red" : "gray" }}
             size="small"
           >
-            <FavoriteIcon />
+             <ShareIcon/>
           </IconButton><IconButton
             onClick={(e) => {
               setMenuOpened(true);
@@ -256,12 +251,18 @@ export default function NoteItem({ note, onDelete, onUpdate }) {
                 >
                   {getDate(note.updatedAt)}
                 </Typography>
+                <select value={lang} onChange={handleLanguage}>
+              {languages.map(item => {
+                  return (<option key={item.value} 
+                  value={item.value}>{item.text}</option>);
+              })}
+            </select>
               </Box>
             </Grid>
           </>
         ) : (
           <TextField
-            sx={{ maxHeight: 350, pt: 2, mt: 3 , height: 100}}
+            sx={{ maxHeight: 350, pt: 2, mt: 4, height: 300}}
             fullWidth
             variant="standard"
             label="Content"
